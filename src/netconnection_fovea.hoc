@@ -132,8 +132,12 @@ proc Ribbon_syn () {//local hv, offhv
 		C2ONCB[i][i].beta = beta_C2ONCB //(original)1.1
         C2ONCB[i][i].tau_1A = tau_1A_C2ONCB
 		//C2ONCB[i][i].tau_A3 = tau_A3_C2ONCB
-		C2ONCB[i][i].g_max = g_C2ONCB
+		//C2ONCB[i][i].g_max = g_C2ONCB
 	}//Cones -> ONCB mGluR6
+
+	for i = Num_C_RP, Num_C-1 {
+		C2ONCB[i][i].g_max = 0
+	}	
 
 	print "Ex : Cones -> OFFCBC"
 	for i = 0, Num_OFFCBC-1{
@@ -157,7 +161,11 @@ proc Ribbon_syn () {//local hv, offhv
 		C2OFFCB[i][i].tau_A3 = tau_A3_C2OFFCB
 		//C2OFFCB[i][i].u = u_C2OFFCB
 
-		C2OFFCB[i][i].g_max = g_C2OFFCB
+		//C2OFFCB[i][i].g_max = g_C2OFFCB
+	}
+
+	for i = Num_C_RP, Num_C-1 {
+		C2OFFCB[i][i].g_max = 0
 	}
 
 	// RB -> AIIAC

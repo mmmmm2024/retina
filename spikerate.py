@@ -3,26 +3,31 @@ import numpy as np
 
 # # ファイル名
 # filenames = [
+#     "OFF_GC_400.txt",
+#     "OFF_GC_400_2.txt",
+#     "OFF_GC_360.txt",
+#     "OFF_GC_320.txt",
+#     "OFF_GC_280.txt",
+#     "OFF_GC_240.txt",
 #     "OFF_GC_200.txt",
-#     "OFF_GC_175.txt",
-#     "OFF_GC_150.txt",
-#     "OFF_GC_125.txt",
-#     "OFF_GC_100.txt",
-#     "OFF_GC_75.txt",
-#     "OFF_GC_50.txt",
-#     "OFF_GC_25.txt",
+#     "OFF_GC_160.txt",
+#     "OFF_GC_120.txt",
+#     "OFF_GC_80.txt",
+#     "OFF_GC_40.txt",
 #     "OFF_GC_1.txt",
 # ]
 
 filenames = [
+    "ON_GC_400.txt",
+    "ON_GC_360.txt",
+    "ON_GC_320.txt",
+    "ON_GC_280.txt",
+    "ON_GC_240.txt",
     "ON_GC_200.txt",
-    "ON_GC_175.txt",
-    "ON_GC_150.txt",
-    "ON_GC_125.txt",
-    "ON_GC_100.txt",
-    "ON_GC_75.txt",
-    "ON_GC_50.txt",
-    "ON_GC_25.txt",
+    "ON_GC_160.txt",
+    "ON_GC_120.txt",
+    "ON_GC_80.txt",
+    "ON_GC_40.txt",
     "ON_GC_1.txt",
 ]
 
