@@ -22,7 +22,7 @@ proc init() {
         insert pas
         //e_pas = -45
         //e_pas = -39 changed
-        e_pas = -66
+        e_pas = -39
         g_pas = 0.000071
 
         //insert ihbip

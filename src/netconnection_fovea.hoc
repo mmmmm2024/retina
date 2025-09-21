@@ -45,51 +45,6 @@ prob3 = new Random(45)
 
 proc Ribbon_syn () {//local hv, offhv
 		
-	// print "EX : Rods -> RBC"
-	// for i = 0, Num_R - 1 {
-	// 	for k = 0, R_cov - 1 {
-	// 		j = rand_r2rbc.repick()  // 0〜Num_RBC-1 のランダム整数
-
-	// 		R2RB[i][k] = new ribbon_syn_R2RB()
-	// 		R_BC[j].soma R2RB[i][k].loc(1)  // Post synaptic: RBC soma
-	// 		setpointer R2RB[i][k].v_pre, Rods[i].soma.v(1)
-
-	// 		R2RB[i][k].act   = act_R2RB
-	// 		R2RB[i][k].p1    = p1_R2RB
-	// 		R2RB[i][k].p2    = p2_R2RB
-	// 		R2RB[i][k].w     = w_R2RB
-	// 		R2RB[i][k].v_th  = v_th_R2RB 
-	// 		R2RB[i][k].v_slp = v_slp_R2RB
-	// 		R2RB[i][k].alpha = alpha_R2RB
-	// 		R2RB[i][k].beta  = beta_R2RB
-	// 		R2RB[i][k].g_max = g_R2RB
-	// 	}
-	// }
-
-    // print "EX : Rods -> RBC"
-    // for i = 0, Num_RBC - 1 {
-    //     for j = 0, Num_R - 1 {
-    //         for n = 0, 1 { // 2本
-    //             k = j*2 + n
-
-    //             R2RB[i][k] = new ribbon_syn_R2RB()
-    //             R_BC[i].soma R2RB[i][k].loc(1)     // Post: RBC i
-    //             setpointer R2RB[i][k].v_pre, Rods[j].soma.v(1)  // Pre: Rod j
-
-    //             //R2RB[i][k].e   = -58 
-    //             R2RB[i][k].act   = act_R2RB
-    //             R2RB[i][k].p1    = p1_R2RB
-    //             R2RB[i][k].p2    = p2_R2RB
-    //             R2RB[i][k].w     = w_R2RB
-    //             R2RB[i][k].v_th  = v_th_R2RB 
-    //             R2RB[i][k].v_slp = v_slp_R2RB
-    //             R2RB[i][k].alpha = alpha_R2RB
-    //             R2RB[i][k].beta  = beta_R2RB
-    //             R2RB[i][k].g_max = g_R2RB
-    //         }
-    //     }
-    // }
-
     print "EX : Rods -> RBC"
     for i = 0, Num_RBC - 1 {
         for j = 0, Num_R - 1 {
@@ -135,9 +90,13 @@ proc Ribbon_syn () {//local hv, offhv
 		//C2ONCB[i][i].g_max = g_C2ONCB
 	}//Cones -> ONCB mGluR6
 
+	for i = 0, Num_C_RP-1 {
+		C2ONCB[i][i].g_max = g_C2ONCB
+	}	
+
 	for i = Num_C_RP, Num_C-1 {
 		C2ONCB[i][i].g_max = 0
-	}	
+	}		
 
 	print "Ex : Cones -> OFFCBC"
 	for i = 0, Num_OFFCBC-1{
@@ -162,6 +121,10 @@ proc Ribbon_syn () {//local hv, offhv
 		//C2OFFCB[i][i].u = u_C2OFFCB
 
 		//C2OFFCB[i][i].g_max = g_C2OFFCB
+	}
+
+	for i = 0, Num_C_RP-1 {
+		C2OFFCB[i][i].g_max = g_C2OFFCB
 	}
 
 	for i = Num_C_RP, Num_C-1 {
@@ -282,11 +245,11 @@ proc Ribbon_syn_set() {local g_RB_AII, g_ONCB_ONGC, g_OFFCB_OFFGC
         }
     }
 
-	// Cone -> ONCBC
-	for i = 0, Num_ONCBC-1{
-		C2ONCB[i][i].g_max = g_C2ONCB 
-		// (origin)0.001
-	}
+	// // Cone -> ONCBC
+	// for i = 0, Num_ONCBC-1{
+	// 	C2ONCB[i][i].g_max = g_C2ONCB 
+	// 	// (origin)0.001
+	// }
 
 	// RB -> AIIAC
 	for i = 0, Num_AC-1{
@@ -439,14 +402,20 @@ proc Cone_GJ() {
 			Cones[i].soma Gap_Cone[i][j].loc(0.5)
 			setpointer Gap_Cone[i][j].vgap, Cones[j].soma.v(0.5)
 		}
-	}
+	}	
 }
 
 
 proc Cone_GJ_set() {
-	for i = 0, Num_C-1{
-		for j = 0, Num_C-1{
+	for i = 0, Num_C_RP-1{
+		for j = 0, Num_C_RP-1{
 			Gap_Cone[i][j].g = gj_C2C 
+		}
+	}
+
+	for i = Num_C_RP, Num_C-1 {
+		for j = 0, Num_C-1 {
+			Gap_Cone[i][j].g = 0
 		}
 	}
 }
@@ -465,11 +434,16 @@ proc R_C_GJ () { local rod, k
 }
 
 proc R_C_GJ_set () {
-    for i = 0, Num_C-1 {
+    for i = 0, Num_C_RP-1 {
         for k = 0, R_cov-1 {
             Gap_R_C[i][k].g = gj_R2C  
         }
     }
+	for i = Num_C_RP, Num_C-1 {
+		for k = 0, R_cov-1 {
+			Gap_R_C[i][k].g = 0
+		}
+	}
 }
 
 // AIIAC <-> AIIAC

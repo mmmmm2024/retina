@@ -3,7 +3,7 @@
 //======================================
 ENABLE_GRAPHICAL_INTERFACE = 1
 tstop           = 6000        // (ms) total simulation time
-step_dt         = 0.005       // (ms) simulation step (original: 0.005)
+step_dt         = 0.005      // (ms) simulation step (original: 0.005)
 
 //======================================
 // Cell Parameters
@@ -17,7 +17,7 @@ step_dt         = 0.005       // (ms) simulation step (original: 0.005)
 //--------------------------------------
 // Rod
 //--------------------------------------
-Num_R           = 400
+Num_R           =  280
 //50
 //200
 //52           // (Publio: 1500)
@@ -54,7 +54,7 @@ amp_Dim         = 0
 // Cone
 //--------------------------------------
 Num_C           = 20
-Num_C_RP        = 16
+Num_C_RP        = 10
            //16 (Publio: 16)
 noise_mean_C    = 0.003
 noise_std_C     = 0.0004

@@ -208,7 +208,7 @@ def record_times_and_voltages():
 
 # run_timer_simple.py
 from time import perf_counter
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 start_wall = datetime.now(timezone.utc)     # 開始時刻（UTC）
 t0 = perf_counter()
@@ -234,6 +234,14 @@ if __name__ == "__main__":
 elapsed = perf_counter() - t0
 end_wall = datetime.now(timezone.utc)       # 終了時刻（UTC）
 
-print(f"Start : {start_wall.isoformat()}")
-print(f"End   : {end_wall.isoformat()}")
-print(f"Elapsed: {elapsed:.3f} s")
+# 日本時間に変換（UTC+9）
+JST = timezone(timedelta(hours=9))
+start_jst = start_wall.astimezone(JST)
+end_jst = end_wall.astimezone(JST)
+
+# elapsed を分:秒に分解
+minutes, seconds = divmod(int(elapsed), 60)
+
+print(f"Start : {start_jst.isoformat()}")
+print(f"End   : {end_jst.isoformat()}")
+print(f"Elapsed: {minutes}分 {seconds}秒")
