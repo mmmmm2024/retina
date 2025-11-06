@@ -6,26 +6,23 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib import cm
 import matplotlib.patches as patches
+from neuron import coreneuron
 
 # --- Load NEURON hoc files ---
 print("=========== init.py =============")
-h.load_file("nrngui.hoc")
+h.load_file("stdrun.hoc")
+coreneuron.enable = True 
+coreneuron.nthread = 8
+coreneuron.cell_permute = 1 
+h.cvode.cache_efficient(1)
 h.load_file("src/parameters_new.hoc")
 h.load_file("createcells.hoc")
 h.load_file("src/netconnection_fovea.hoc")
-# h.load_file("src/netconnection.hoc")
-# h.load_file("src/parameters_tada.hoc")
-# h.load_file("createcells_tada.hoc")
-# h.load_file("src/netconnection_tada.hoc")
-# h.load_file("src/panel.hoc")
-# h.load_file("src/panel2.hoc")
-# h.load_file("src/write.hoc")
-
 
 # --- Simulation Control ---
 def step():
-    if h.ENABLE_GRAPHICAL_INTERFACE:
-        h.Plot()
+    # if h.ENABLE_GRAPHICAL_INTERFACE:
+    #     h.Plot()
     h.fadvance()
 
 
@@ -71,18 +68,10 @@ def get_object_name(obj):
     return name
 
 
-# 使用するオブジェクトを設定
+# setting objects
 object_names = {}
-
-# 錐体 (Cones) ―― Num_C は 0 になる可能性もあるのでガード
-if int(h.Num_C) > 0:
-    object_names[h.Cones[0]] = "Cones"
-
-# 桿体 (Rods) ―― Num_R が 0 ならスキップ
-if int(h.Num_R) > 0:
-    object_names[h.Rods[0]] = "Rods"
-
-# それ以外の細胞は 1 個以上ある前提ならそのまま
+object_names[h.Cones[0]] = "Cones"
+object_names[h.Rods[0]] = "Rods"
 object_names[h.R_BC[0]] = "R_BC"
 object_names[h.ON_CBC[0]] = "ON_CBC"
 object_names[h.OFF_CBC[0]] = "OFF_CBC"
@@ -90,20 +79,6 @@ object_names[h.AIIAC[0]] = "AIIAC"
 object_names[h.ON_GC[0]] = "ON_GC"
 object_names[h.OFF_GC[0]] = "OFF_GC"
 
-
-# target_object = h.R_BC[0]
-# name = 'v'
-
-
-# # target_object に対応する名前を取得
-# object_name = object_names.get(target_object)
-
-# init()
-# start(h.AMP, h.Num_R, h.Num_C)
-# # h.block_ih(h.gihbar)
-
-
-# === REFACTORED: Data recording helper  ===
 
 # === REFACTORED: Static plot code ===
 def plot_static():
@@ -124,7 +99,7 @@ def plot_static():
     line3, = ax.plot(x3, y3, color='#274A78', lw=1.5, zorder=1)
 
     ax.set_xlim(1, 6)
-    # ax.set_ylim(-80, 20)
+    ax.set_ylim(-56, -53)
     # ax.set_ylim(-80, -10)
     # plt.yticks([-100, -80, -60, -40, -20, 0, 20])
     ax.set_ylabel("Membrane Potential (mV)")
@@ -139,8 +114,8 @@ def plot_static():
     ax.add_patch(stim_rect)
 
     # output_filename = f"{object_name}_RC{h.R_cov:.0f}_v_fovea.pdf"
-    # output_filename = f"{object_name}_C{h.Num_C:.0f}_v_fovea.pdf"
-    output_filename = f"{object_name}_{h.Num_R:.0f}_vol_fovea.pdf"
+    output_filename = f"{object_name}_R{h.Num_R:.0f}_C{h.Num_C_RP:.0f}.pdf"
+    # output_filename = f"{object_name}_{h.Num_R:.0f}_vol_fovea.pdf"
     plt.tight_layout()
     plt.savefig(output_filename, dpi=300, bbox_inches='tight')
     # plt.show()
@@ -171,12 +146,6 @@ def animate_recording():
     anim = FuncAnimation(fig, update, frames=frame_count, interval=0, blit=True)
     anim.save(f"membrane_{object_name}.mp4", writer="ffmpeg", fps=100)
     plt.close(fig)
-
-# === USAGE ===
-# To generate static plot, call:
-# plot_static()
-# To generate animation, call:
-# animate_recording()
 
 # === NEW FUNCTION: Export data to text file ===
 def export_data_txt(filename):
@@ -217,17 +186,15 @@ init()
 start(h.AMP, h.Num_R, h.Num_C)
 # h.block_ih(h.gihbar)
 
-target_object = h.ON_GC[0]
+target_object = h.AIIAC[0]
 name = 'v'
 object_name = object_names.get(target_object)
 
 if __name__ == "__main__":
-    # Example calls:
+    print(f"{object_name}_{h.Num_R:.0f}")
     # plot_static()
     export_data_txt(f"{object_name}_{h.Num_R:.0f}.txt")
-    # export_data_txt(f"{object_name}_{h.Num_R:.0f}_R:cov{h.R_cov:.0f}.txt")
-    # export_data_txt(f"{object_name}_C{h.Num_C}.txt")
-    # animate_recording()  # uncomment to create animation
+    # animate_recording()
     print(f"{object_name}_{h.Num_R:.0f}")
     print("complete")
 
@@ -239,7 +206,6 @@ JST = timezone(timedelta(hours=9))
 start_jst = start_wall.astimezone(JST)
 end_jst = end_wall.astimezone(JST)
 
-# elapsed を分:秒に分解
 minutes, seconds = divmod(int(elapsed), 60)
 
 print(f"Start : {start_jst.isoformat()}")
