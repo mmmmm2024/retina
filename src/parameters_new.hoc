@@ -2,7 +2,7 @@
 // Simulation Parameters
 //======================================
 ENABLE_GRAPHICAL_INTERFACE = 1
-tstop           = 6000        // (ms) total simulation time
+tstop           = 6000        // (ms) total simulation time 6000ms
 step_dt         = 0.005      // (ms) simulation step (original: 0.005)
 
 //======================================
@@ -17,11 +17,9 @@ step_dt         = 0.005      // (ms) simulation step (original: 0.005)
 //--------------------------------------
 // Rod
 //--------------------------------------
-Num_R           =  280
-//50
-//200
-//52           // (Publio: 1500)
-noise_mean_R    = 0.003
+Num_R           = 1
+// (Publio: 1500)
+noise_mean_R    = 0.006
 //0.003(default)
 noise_std_R     = 0.0004
 tau_noise_R     = 5.0
@@ -46,16 +44,16 @@ toff_Dim        = toff_stim
 ssI_Dim         = 0       
 amp_Dim         = 0
 
-// del        = 2000        // (ms) 例: 刺激開始時刻
-// on         = 6000        // (ms) 例: 刺激終了時刻
-// gihbar     = 2.5         // 例: イオンチャネル導電率
+// del        = 2000        // (ms) 刺激開始時刻
+// on         = 6000        // (ms) 刺激終了時刻
+// gihbar     = 2.5
 
 //--------------------------------------
 // Cone
 //--------------------------------------
 Num_C           = 20
-Num_C_RP        = 10
-           //16 (Publio: 16)
+Num_C_RP        = 0
+//(Publio: 16)
 noise_mean_C    = 0.003
 noise_std_C     = 0.0004
 tau_noise_C     = 5.0
@@ -100,7 +98,7 @@ seed_noise_RBC  = 3
 //--------------------------------------
 Num_ONCBC           = 20  
 //(Fovea)11
-// 例: 論文により28, 55など
+// 論文により28, 55など
 noise_mean_ONCBC    = 0.003
 noise_std_ONCBC     = 0.0004
 tau_noise_ONCBC     = 5.0
@@ -160,11 +158,11 @@ seed_noise_OFFGC    = 5 //(origin=5)
 // AIIAC <-> ONCB
 gj_AC_ONCB          = 0.00010 * 4.2   // original 0.00050
 // Ahnelt et al., gj=100 pS
-// gj_AC_ONCB       = 0.00003    // albino rat(normal) [uS]
-// gj_AC_ONCB          = 0.0
+
 
 // R <-> R
-gj_C2C              = 0.0001 * 4.8 * 3.2 / 4.1    // [uS]
+gj_C2C              = 0.0001 * 4.8 * 3.2 / 4.1    
+//[uS] Tsukamoto et al
 // R <-> C
 gj_R2C              = 0.0001 * 5     // [uS]
 // AIIAC <-> AIIAC
@@ -173,11 +171,6 @@ gj_AC2AC            = 0.00008    // [uS]
 
 // AIIAC <-> Cone Bipolar
 gj_AC2CB            = 0.0005
-//0.0001 * 4.2
-//0.00042
-//0.0001 * 4.2     // [uS]
-// gj_AC2CB            = 0.0005
-// gj_AC2CB            = 0.0
 
 // OFFGC <-> OFFGC
 gj_OFFGC2OFFGC      = 0.001      // [uS]
@@ -198,20 +191,10 @@ u_R2RB              = 0.2
 v_th_R2RB           = -40
 v_slp_R2RB          = 10
 alpha_R2RB          = 1
-//0.005
 beta_R2RB           = 1.1
-//500
 tau_1A_R2RB         = 2
 
-g_R2RB              = 0.00001
-//0.00001
-//0.00001 
-//25
-//Num_R * 2 / Num_RBC
-//Berntson & Taylor (2000) 複数 Rod が収束した RBC 全体で最大 ~0.8 nS
-
-//
-//g_R2RB              = 0.0
+g_R2RB              = 0.0000
 
 //Cones -> ONCBC
 //e_C2ONCB           = -45
@@ -228,12 +211,9 @@ tau_21_C2ONCB       = 700
 tau_32_C2ONCB       = 2000
 tau_A3_C2ONCB       = 10000
 g_C2ONCB            = 0.005
-//.005
-//0.001 * 18
 
 // Cones -> OFFCBC
 e_C2OFFCB           = 0
-//-40
 act_C2OFFCB          = 0.0
 p1_C2OFFCB           = 0.015
 p2_C2OFFCB           = 0.58
@@ -244,22 +224,11 @@ v_slp_C2OFFCB        = 5
 alpha_C2OFFCB        = 2.0
 beta_C2OFFCB         = 0.4
 tau_1A_C2OFFCB       = 15
-// v_slp_C2OFFCB        = 5
-// //5
-// alpha_C2OFFCB        = 1.5
-// beta_C2OFFCB         = 0.3
-// tau_1A_C2OFFCB       = 15
-//2.0
 tau_21_C2OFFCB       = 700
-//700
 tau_32_C2OFFCB       = 2000
-//2000
 tau_A3_C2OFFCB       = 10000
-//10000
-g_C2OFFCB = 0.005
-//0.004
-//0.00005 * 42
-//0.01
+g_C2OFFCB            = 0.005
+
 
 // RB -> AIIAC
 
@@ -276,10 +245,7 @@ tau_21_RBC2AC       = 700
 tau_32_RBC2AC       = 2000
 tau_A3_RBC2AC       = 10000
 g_RBC2AC            = 0.0012
-//* 16.7 / Num_AC
-//16.7
-//g_RBC2AC            = 0.0
-//0.000005  // normal:0.0012, pathological;0.0 
+// normal:0.0012, pathological;0.0 
 
 //OFFCB -> AIIAC
 act_OFFCB2AC        = 0.0
@@ -296,10 +262,7 @@ tau_21_OFFCB2AC       = 700
 tau_32_OFFCB2AC       = 2000
 tau_A3_OFFCB2AC      = 10000
 
-g_OFFCB2AC          = 0.001 
-//* 15.7 / 5 / Num_AC
-//g_OFFCB2AC          = 0.001 * 3.5 / Num_AC
-//g_OFFCB2AC          = 0.0   
+g_OFFCB2AC          = 0.001   
 // normal:0.001, pathological:0.0
 
 // ONCB -> ONGC
@@ -316,7 +279,6 @@ tau_21_ONCB2ONGC      = 700
 tau_32_ONCB2ONGC      = 2000
 tau_A3_ONCB2ONGC      = 10000
 g_ONCB2ONGC         = 0.01 * 55
-//* 55 
 // normal:0.013, pathological:0.011
 //IMB1(ONCB)→ON mGC 55 ribbons
 
@@ -328,8 +290,7 @@ p2_OFFCB2OFFGC      = 0.58
 w_OFFCB2OFFGC       = 0.0
 v_th_OFFCB2OFFGC    = -40
 //McLaughlin et al. (2021)
-//DB1細胞とFMB細胞は電位依存性チャネルの構成に関して最も似ていた
-//CaV3.1 subunit was absent from DB1 cells
+//CaV3.1 subunit was absent from FMB
 v_slp_OFFCB2OFFGC   =6
 alpha_OFFCB2OFFGC   = 1
 beta_OFFCB2OFFGC    = 1.1
@@ -339,27 +300,11 @@ tau_32_OFFCB2OFFGCC      = 2000
 tau_A3_OFFCB2OFFGC     = 10000
 
 g_OFFCB2OFFGC       = 0.005 *81 
-//0.003 * 81
-// * 81     // normal:0.013, pathological:0.0
 //FMB1(OFFCB)→OFF mGC 81 ribbons
 
 //--------------------------------------
 // Glycinergic Synapses (Inhibitory)
 //--------------------------------------
-
-// // Cones -> OFFCBC
-// e_C2OFFCB           = -45
-// //-40
-// v_th_C2OFFCB        = -20
-// v_slp_C2OFFCB       = 10
-// tau_e_C2OFFCB       = 25
-// tau_r_C2OFFCB       = 800
-// u_C2OFFCB           = 0.2
-// eff_C2OFFCB         = 0
-// rec_C2OFFCB         = 1
-
-// g_C2OFFCB = 0.001 * 42
-// //0.01
 
 // AIIAC -> OFFCB
 v_th_AC2OFFCB       = -30
@@ -371,12 +316,10 @@ u_AC2OFFCB          = 0.2
 eff_AC2OFFCB        = 0
 rec_AC2OFFCB        = 1
 g_AC2OFFCB          = 0.003
-//1 *15.7
-// * 15.7 / Num_OFFCBC
 //g_AC2OFFCB          = 0.0001 * 15.7 / 5   // original
 // g_AC_OFFCB      = 0.001      // pathological
 //g_AC2OFFCB          = 0.0001     // original
-//g_AC2OFFCB          = 0.0
+
 
 // AIIAC -> OFFGC
 //e_AC2OFFGC          = -65
@@ -387,7 +330,3 @@ tau_r_AC2OFFGC      = 800
 u_AC2OFFGC          = 0.2 
 
 g_AC2OFFGC          = 0.003
-// * 15.7 * 0.1 / Num_OFFGC
-// * 15.7 * 0.1 / Num_OFFGC     // normal
-//0.003
-//g_AC2OFFGC          = 0.0
